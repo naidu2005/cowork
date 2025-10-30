@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingBottom: 32,
-    paddingTop: 16,
+    paddingTop: 30,
   },
   iconButton: {
     padding: 8,

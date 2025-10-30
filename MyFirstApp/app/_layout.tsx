@@ -6,6 +6,7 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { ProjectsProvider } from '@/contexts/ProjectsContext';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
+import SplashScreen from '@/components/ui/SplashScreen';
 
 export const unstable_settings = {
   // This is handled by the Redirect component based on session
@@ -17,7 +18,7 @@ function RootLayoutContent() {
   const { session, loading } = useAuth();
 
   if (loading) {
-    return null; // Or a loading indicator
+    return <SplashScreen />;
   }
 
   return (
@@ -28,8 +29,8 @@ function RootLayoutContent() {
         ) : (
           <Stack.Screen name="auth" options={{ headerShown: false }} />
         )}
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-        <Stack.Screen name="add-project" options={{ presentation: 'modal', title: 'New Project' }} />
+        <Stack.Screen name="modal" options={{ presentation: 'modal', headerShown: false }} />
+        <Stack.Screen name="add-project" options={{ presentation: 'modal', headerShown: false }} />
         <Stack.Screen name="project-dashboard" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />

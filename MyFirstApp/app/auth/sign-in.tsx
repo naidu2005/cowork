@@ -51,6 +51,7 @@ export default function SignInScreen() {
           <Text style={styles.linkText}>Don't have an account? Sign Up</Text>
         </TouchableOpacity>
       </Link>
+      <Text style={styles.copyrightText}>© K.L.V.R.NAIDU</Text>
     </View>
   );
 }
@@ -95,5 +96,11 @@ const styles = StyleSheet.create({
   linkText: {
     color: '#007bff',
     fontSize: 16,
+  },
+  copyrightText: {
+    position: 'absolute',
+    bottom: 20,
+    color: '#888',
+    fontSize: 12,
   },
 });
