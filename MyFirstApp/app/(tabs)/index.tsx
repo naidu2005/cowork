@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, ScrollView, Alert } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, ScrollView, Alert, Modal, Pressable } from 'react-native';
+import { BlurView } from 'expo-blur';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
 import { useProjects } from '@/contexts/ProjectsContext';
@@ -52,6 +53,7 @@ export default function HomeScreen() {
   const { projects, deleteProject, leaveProject } = useProjects();
   const { user } = useAuth();
   const router = useRouter();
+  const [devModalVisible, setDevModalVisible] = useState(false);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -98,7 +100,7 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.screen}>
       <View style={styles.header}>
         <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity style={styles.iconButton} onPress={handleSignOut}>
+          <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
             <MaterialIcons name="logout" size={24} color="#374151" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconButton} onPress={handleForceSignOut}>
@@ -106,7 +108,11 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
         <Text style={styles.headerTitle}>My Projects</Text>
-        <View style={styles.headerRightPlaceholder} />
+        <View style={styles.headerRightContainer}>
+          <TouchableOpacity style={styles.devButton} onPress={() => setDevModalVisible(true)}>
+            <Text style={styles.devButtonText}>DEV</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView style={styles.mainContent}>
@@ -140,6 +146,30 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </Link>
       </View>
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={devModalVisible}
+        onRequestClose={() => {
+          setDevModalVisible(!devModalVisible);
+        }}
+      >
+        <BlurView intensity={80} tint="dark" style={StyleSheet.absoluteFill}>
+          <Pressable style={styles.modalBackdrop} onPress={() => setDevModalVisible(false)}>
+            <BlurView intensity={80} tint="light" style={styles.modalContent}>
+              <Text style={styles.modalText}>
+                Hi! My name is K. L. V. R. Naidu, and I’m the developer of this app.
+                I hope you enjoy using it — we’ve got many exciting updates coming soon!
+                If you have any suggestions, feedback, or queries, I’d really appreciate hearing from you.
+                You can reach me at 📧 devguys99@gmail.com.
+                Thanks for your support! 🙌
+              </Text>
+              <Text style={styles.copyrightText}>© K.L.V.R.NAIDU</Text>
+            </BlurView>
+          </Pressable>
+        </BlurView>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -153,19 +183,43 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 35,
+    paddingTop: 35,
   },
   iconButton: {
     padding: 8,
+  },
+  signOutButton: {
+    padding: 8,
+    marginLeft: 10, // Adjust this value to move the button further right
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#1f2937',
-    marginLeft: -24,
+    marginLeft: -36,
   },
   headerRightPlaceholder: {
     width: 40,
+  },
+  headerRightContainer: {
+    width: 50,
+    alignItems: 'flex-end',
+    
+  },
+ devButton: {
+  backgroundColor: '#137fec',
+  borderRadius: 30,
+  height: 32,          // sets vertical size
+  width: 70,           // sets horizontal size
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginRight: 18,
+  marginTop: 5,
+},
+  devButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 12,
   },
   mainContent: {
     flex: 1,
@@ -270,5 +324,36 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  modalBackdrop: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(33, 25, 25, 0.4)',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    margin: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  copyrightText: {
+    fontSize: 12,
+    color: '#342af5ff',
+    marginTop: 10,
   },
 });

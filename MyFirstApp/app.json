@@ -47,8 +47,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "20af8ec3-0b50-4f3d-80ca-ab121083a5da"
+        "projectId": "bb8c7401-b644-47ae-a5e1-b3ec76a67c18"
       }
-    }
+    },
+    "owner": "klvr_naidu"
   }
 }
